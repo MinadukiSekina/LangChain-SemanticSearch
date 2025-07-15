@@ -1,4 +1,5 @@
 from langchain_community.document_loaders import PyPDFLoader
+from langchain_core.vectorstores import InMemoryVectorStore
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
@@ -14,9 +15,10 @@ all_splits = text_splitter.split_documents(docs)
 
 embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 
-vector_1 = embeddings.embed_query(all_splits[0].page_content)
-vector_2 = embeddings.embed_query(all_splits[1].page_content)
+vector_store = InMemoryVectorStore(embeddings)
 
-assert len(vector_1) == len(vector_2)
-print(f"Generated vectors of length {len(vector_1)}\n")
-print(vector_1[:10])
+ids = vector_store.add_documents(documents=all_splits)
+
+results = vector_store.similarity_search("How many distribution centers does Nike have in the US?")
+
+print(results[0])
