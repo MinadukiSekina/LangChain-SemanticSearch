@@ -627,6 +627,7 @@ version = "0.0.1"
 source = { editable = "." }
 dependencies = [
     { name = "langchain-community" },
+    { name = "langchain-core" },
     { name = "langchain-google-genai" },
     { name = "langsmith" },
     { name = "pypdf" },
@@ -643,6 +644,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "langchain-community", specifier = ">=0.3.27" },
+    { name = "langchain-core", specifier = ">=0.3.68" },
     { name = "langchain-google-genai", specifier = ">=2.1.7" },
     { name = "langsmith", specifier = ">=0.4.5" },
     { name = "pypdf", specifier = ">=5.8.0" },
