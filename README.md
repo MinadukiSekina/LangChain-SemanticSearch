@@ -83,7 +83,7 @@ uvx copier update -A
 ```text
 your-project/
 ├── src/
-│   └── your_project/          # Main package
+│   └── semantic_search/          # Main package
 ├── tests/                     # Test files
 ├── docker/                    # Docker configuration
 ├── compose.yml               # Docker Compose setup
