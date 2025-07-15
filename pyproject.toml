@@ -6,6 +6,7 @@ readme = "README.md"
 authors = [{ name = "Junya Morioka", email = "mjun@mjunya.com" }]
 requires-python = ">=3.12"
 dependencies = [
+    "fastapi[standard]>=0.116.1",
     "langchain-community>=0.3.27",
     "langchain-core>=0.3.68",
     "langchain-google-genai>=2.1.7",
