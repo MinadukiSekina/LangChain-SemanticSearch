@@ -1,6 +1,4 @@
 from langchain_community.document_loaders import PyPDFLoader
-from langchain_core.documents import Document
-from langchain_core.runnables import chain
 from langchain_core.vectorstores import InMemoryVectorStore
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -25,11 +23,10 @@ vector_store = InMemoryVectorStore(embeddings)
 
 ids = vector_store.add_documents(documents=all_splits)
 
-
-@chain
-def retriever(query: str) -> list[Document]:
-    return vector_store.similarity_search(query, k=1)
-
+retriever = vector_store.as_retriever(
+    search_type="similarity",
+    search_kwargs={"k": 1},
+)
 
 results = retriever.batch(
     [
