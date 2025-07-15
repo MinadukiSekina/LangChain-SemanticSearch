@@ -1,38 +1,13 @@
-from langchain_community.document_loaders import PyPDFLoader
-from langchain_core.vectorstores import InMemoryVectorStore
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from langchain_text_splitters import RecursiveCharacterTextSplitter
+from fastapi import FastAPI
 
+from semantic_search.api.document import router as document_router
 from semantic_search.environment.env_loader import load_env
 
+# 環境変数の読み込み
 load_env()
 
-file_path = "src/semantic_search/example_data/nke-10k-2023.pdf"
-loader = PyPDFLoader(file_path)
+# FastAPIのインスタンスを作成
+app = FastAPI(title="Semantic Search API", version="1.0.0")
 
-docs = loader.load()
-
-text_splitter = RecursiveCharacterTextSplitter(
-    chunk_size=1000, chunk_overlap=200, add_start_index=True
-)
-all_splits = text_splitter.split_documents(docs)
-
-embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
-
-vector_store = InMemoryVectorStore(embeddings)
-
-ids = vector_store.add_documents(documents=all_splits)
-
-retriever = vector_store.as_retriever(
-    search_type="similarity",
-    search_kwargs={"k": 1},
-)
-
-results = retriever.batch(
-    [
-        "How many distribution centers does Nike have in the US?",
-        "When was Nike incorporated?",
-    ],
-)
-
-print(results)
+# ルーターの登録
+app.include_router(document_router)
