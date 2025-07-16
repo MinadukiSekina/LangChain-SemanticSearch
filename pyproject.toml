@@ -6,9 +6,13 @@ readme = "README.md"
 authors = [{ name = "Junya Morioka", email = "mjun@mjunya.com" }]
 requires-python = ">=3.12"
 dependencies = [
+    "fastapi[standard]>=0.116.1",
     "langchain-community>=0.3.27",
+    "langchain-core>=0.3.68",
+    "langchain-google-genai>=2.1.7",
     "langsmith>=0.4.5",
     "pypdf>=5.8.0",
+    "python-dotenv>=1.1.1",
 ]
 
 [build-system]

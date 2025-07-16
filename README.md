@@ -1,105 +1,186 @@
-# Python-Project-Template
+# LangChain-SemanticSearch
 
-[![CI](https://github.com/mjun0812/python-project-template/actions/workflows/ci.yml/badge.svg)](https://github.com/mjun0812/python-project-template/actions/workflows/ci.yml)
+[![CI](https://github.com/MinadukiSekina/LangChain-SemanticSearch/actions/workflows/ci.yml/badge.svg)](https://github.com/MinadukiSekina/LangChain-SemanticSearch/actions/workflows/ci.yml)
 
-A simple modern Python project template.
+LangChainを使用したセマンティックAPIサービスです。
 
-This repository is created by [mjun0812/python-copier-template](https://github.com/mjun0812/python-copier-template) using [copier](https://copier.readthedocs.io/).
+[技術記事](https://qiita.com/MinadukiSekina/items/ec7f4a94603306a25fd7)
 
-[Article](https://mjunya.com/en/posts/2025-06-15-python-template/) [日本語記事](https://zenn.dev/mjun0812/articles/0ae2325d40ed20)
+## 機能
 
-## Features
+- 🌐 **セマンティック検索API**: LangChainを使用したセマンティック検索
+- ⚡ **FastAPI**: 高速なWebフレームワーク
+- 🐳 **Docker Support**: 完全なDocker開発環境
+- 📦 **Devcontainer Support**: VS Code devcontainer対応
+- ✨ **AI Editor Support**: [Cursor rules](https://docs.cursor.com/context/rules)と[CLAUDE.md](https://docs.anthropic.com/en/docs/claude-code/overview)対応
+- 📝 **Type Hints**: 完全な型注釈サポート
+- 🔍 **Code Quality**: Ruffによるリンティングとフォーマット
+- 🧪 **Testing**: pytestセットアップ
+- 🔧 **Pre-commit Hooks**: 自動コード品質チェック
+- 🏗️ **CI Ready**: GitHub Actionsワークフロー
 
-- 🚀 **Modern Python**: Support for Python 3.10-3.13
-- 📦 **uv Package Manager**: Fast and reliable package management with [uv](https://github.com/astral-sh/uv)
-- 🐳 **Docker Support**: Complete Docker development environment
-- 📦 **Devcontainer Support**: VS Code devcontainer for consistent development
-- ✨ **AI Editor Support**: [Cursor rules](https://docs.cursor.com/context/rules) and
-  [CLAUDE.md](https://docs.anthropic.com/en/docs/claude-code/overview) included for AI-powered development
-- 📝 **Type Hints**: Full type annotation support with modern Python features
-- 🔍 **Code Quality**: Pre-configured Ruff for linting and formatting
-- 🧪 **Testing**: pytest setup with example tests
-- 🔧 **Pre-commit Hooks**: Automated code quality checks
-- 🏗️ **CI Ready**: GitHub Actions workflows included
+## 技術スタック
 
-## Quick Start
+- **Python 3.12+**
+- **LangChain**: AIアプリケーション開発フレームワーク
+- **Fast API**: Webフレームワーク
+- **uv**: 高速Pythonパッケージマネージャー
 
-### Pre-Requirements
+## クイックスタート
 
-- [uv](https://docs.astral.sh/uv/): Fast Python package installer
+### 前提条件
 
-### Development Setup
+- [uv](https://docs.astral.sh/uv/): 高速Pythonパッケージインストーラー
+- Google Gemini AI APIキー
+
+### 環境設定
+
+1. 環境変数ファイルを作成:
+```bash
+cp .env.example .env
+```
+
+2. `.env`ファイルにGoogle Gemini AI APIキーを設定:
+```env
+GOOGLE_API_KEY=your_api_key_here
+```
+
+### ローカルで開発する場合のセットアップ
 
 ```bash
-# Install dependencies
+# 依存関係をインストール
 uv sync
 
-# Install pre-commit hooks
+# プリコミットフックをインストール
 uv run pre-commit install
 
-# Run tests
+# アプリケーションを起動
+uv run python src/chat_app/main.py
+
+# テストを実行
 uv run pytest
 
-# Run formatting and linting (automatically runs on commit)
+# フォーマットとリンティング（コミット時に自動実行）
 uv run ruff format .
 uv run ruff check .
-# Auto Fix
+# 自動修正
 uv run ruff check . --fix
 ```
 
-### Docker Development Setup
-
-The template includes a complete Docker setup:
+### Dockerで開発する場合セットアップ
 
 ```bash
-# create uv.lock file
+# uv.lockファイルを作成
 uv sync
 
-# use the provided scripts
+# 提供されたスクリプトを使用
 ./docker/build.sh
-./docker/run.sh # or./docker/run.sh (Command)
+./docker/run.sh # または ./docker/run.sh (コマンド)
 
-# Build and run with Docker Compose
+# Docker Composeでビルドと実行
 docker compose build
 docker compose up
 ```
 
-### VS Code Devcontainer
+### VS Code Devcontainerの場合のセットアップ
 
-Open the project in VS Code and use the "Reopen in Container" command for a fully configured development environment.
+VS Codeでプロジェクトを開き、"Reopen in Container"コマンドを使用して完全に設定された開発環境を利用できます。
 
-### Update Template
-
-Thit template is created by [mjun0812/python-copier-template](https://github.com/mjun0812/python-copier-template).
-You can apply update from it.
+## サーバーの起動
 
 ```bash
-cd your-project-name
-uvx copier update -A
+uv run fastapi dev src/semantic_search/main.py
 ```
 
-## Project Structure
+## API エンドポイント
+
+### セマンティック検索API
+
+**POST** `/documents/`
+
+セマンティック検索を行います。
+
+**リクエスト例:**
+```json
+{
+  "prompt": "検索したい内容"
+}
+```
+
+**レスポンス例:**
+```json
+{
+  "result": [
+    "検索結果1",
+    "検索結果2"
+  ]
+}
+```
+
+### Docs
+
+Swagger UI（自動生成）：http://127.0.0.1:8000/docs
+
+## プロジェクト構造
 
 ```text
-your-project/
+LangChain-semantic_search/
 ├── src/
-│   └── semantic_search/          # Main package
-├── tests/                     # Test files
-├── docker/                    # Docker configuration
-├── compose.yml               # Docker Compose setup
-├── pyproject.toml            # Project configuration
-└── README.md                 # Project documentation
+│   └── semantic_search/      # メインパッケージ
+│       ├── api/              # APIエンドポイント
+│       ├── environment/      # 環境設定
+│       ├── example_data/     # 文書データのオリジナル
+│       ├── llms/             # LLMモデルの定義
+│       ├── lodaer/           # 読み込み用
+│       ├── main.py/          # アプリケーションエントリーポイント
+│       ├── models/           # リクエスト・レスポンス用モデル
+│       ├── retriever/        # セマンティック検索
+│       ├── splitter/         # チャンクへの分割
+│       └── vector_store/     # ベクトルDB
+├── tests/                    # テストファイル
+├── docker/                   # Docker設定
+├── compose.yml               # Docker Compose設定
+├── pyproject.toml            # プロジェクト設定
+└── README.md                 # プロジェクトドキュメント
 ```
 
-## Q&A
+## 開発ガイドライン
 
-### Why don't you use a type checker?
+### パッケージ管理
+- uvのみを使用
+- インストール: `uv add package`
+- アップグレード: `uv add --dev package --upgrade-package package`
+- 禁止: `uv pip install`, `@latest`構文
 
-I'm waiting for stable release of [`ty`](https://github.com/astral-sh/ty).
-You can install and use your preferred type checker.
+### コード品質
+- すべてのコードに型ヒントが必要
+- 既存のパターンを正確に従う
+- ドキュメント文字列にはGoogleスタイルを使用
 
-## Support
+### テスト要件
+- フレームワーク: `uv run --frozen pytest`
+- カバレッジ: エッジケースとエラーをテスト
+- 新機能にはテストが必要
+- バグ修正には回帰テストが必要
 
-- 📖 [Copier Documentation](https://copier.readthedocs.io/)
+### Git
+- コミットメッセージはConventional Commitsスタイルに従う
+
+## コードフォーマットとリンティング
+
+### Ruff
+- フォーマット: `uv run --frozen ruff format .`
+- チェック: `uv run --frozen ruff check .`
+- 修正: `uv run --frozen ruff check . --fix`
+
+### Pre-commit
+- 設定: `.pre-commit-config.yaml`
+- 実行: git commit時
+- ツール: Ruff (Python)
+
+## サポート
+
+- 📖 [LangChain Documentation](https://python.langchain.com/)
+- 📖 [LangServe Documentation](https://python.langchain.com/docs/langserve)
 - 🐍 [uv Documentation](https://docs.astral.sh/uv/)
 - 🔍 [Ruff Documentation](https://docs.astral.sh/ruff/)
