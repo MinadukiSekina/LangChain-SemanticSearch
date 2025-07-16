@@ -33,3 +33,7 @@ class InMemoryVectorStore:
     def vector_store(self) -> LangchainInMemoryVectorStore:
         """ベクトルDBのインスタンスを返す"""
         return self._vector_store
+
+
+# シングルトンインスタンスを事前に作成
+vector_store_instance = InMemoryVectorStore()

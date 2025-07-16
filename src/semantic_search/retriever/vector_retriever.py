@@ -4,15 +4,12 @@ from fastapi.params import Depends
 from langchain_core.vectorstores import VectorStoreRetriever
 
 from semantic_search.models.message import Message
-from semantic_search.vector_store.in_memory_store import InMemoryVectorStore
-
-# シングルトンインスタンスを事前に作成
-_vector_store_instance = InMemoryVectorStore()
+from semantic_search.vector_store.in_memory_store import vector_store_instance
 
 
 def get_vector_retriever() -> VectorStoreRetriever:
     """ベクトル検索用のインスタンスを取得する"""
-    return _vector_store_instance.vector_store.as_retriever(
+    return vector_store_instance.vector_store.as_retriever(
         search_type="similarity",
         search_kwargs={"k": 1},
     )
